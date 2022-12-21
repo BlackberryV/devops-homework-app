@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-homework-app
+  labels:
+    app: devops-homework-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devops-homework-app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: devops-homework-app
+    spec:
+      containers:
+        - image: blackberryv/devops-homework-app:latest
+          name: devops-homework-app
+          ports:
+            - containerPort: 8080
+              name: devops-homework-app
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 3
